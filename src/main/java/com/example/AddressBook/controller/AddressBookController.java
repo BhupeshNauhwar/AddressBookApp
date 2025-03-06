@@ -32,7 +32,7 @@ public class AddressBookController {
         return addressBookService.getAddressBookById(id);
     }
     @PutMapping("/Update/{id}")
-    public AddressBook updateAddressBook(Long id, @RequestBody AddressBookDto addressBookDto){
+    public AddressBook updateAddressBook(@PathVariable Long id, @RequestBody AddressBookDto addressBookDto){
         return addressBookService.updateAddressBookById(id,addressBookDto);
     }
 
