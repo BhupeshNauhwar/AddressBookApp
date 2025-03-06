@@ -4,15 +4,15 @@ public class AddressBookDto {
     private Long id;
     private String name;
     private String email;
-    private String password;
+    private String phone;
 
     public AddressBookDto() {}
 
-    public AddressBookDto(Long id, String name, String email, String password) {
+    public AddressBookDto(Long id, String name, String email, String phone) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
+        this.phone = phone;
     }
 
     public Long getId() {
@@ -39,11 +39,11 @@ public class AddressBookDto {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String phone) {
+        this.phone = phone;
     }
 }
