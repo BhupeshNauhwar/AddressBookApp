@@ -67,10 +67,15 @@ public class AddressBookService implements AddressBookInterface {
 
     @Override
     public void deleteAddressBookById(Long id){
-        log.info("find details of AddressBook with id ");
-        AddressBook found=addressBookRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found: " + id));
+        try{
+            log.info("find details of AddressBook with id ");
+            AddressBook found=addressBookRepository.findById(id).orElseThrow(() -> new RuntimeException("Id not found: " + id));
 
-        addressBookRepository.delete(found);
-        log.info(" AddressBook deleted successfully");
+            addressBookRepository.delete(found);
+            log.info(" AddressBook deleted successfully");
+        }catch (Exception e){
+            throw  new RuntimeException("Error deleting address with ID: " + id, e);
+        }
     }
+
 }
