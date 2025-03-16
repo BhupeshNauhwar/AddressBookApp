@@ -1,5 +1,9 @@
 package com.example.AddressBook.services;
 
+import com.example.AddressBook.Exception.RegistrationException;
+import com.example.AddressBook.Exception.VerificationException;
+import com.example.AddressBook.Utils.Jwt;
+import com.example.AddressBook.dto.LoginDTO;
 import com.example.AddressBook.dto.UserDTO;
 import com.example.AddressBook.model.Users;
 import com.example.AddressBook.repository.UserRepository;
@@ -22,6 +26,8 @@ public class UserServices implements UserInterface {
     UserRepository userRepository;
 
     @Autowired
+    Jwt jwtUtil;
+    @Autowired
     EmailService emailService;
 
     private final PasswordEncoder passwordEncoder;
@@ -33,7 +39,7 @@ public class UserServices implements UserInterface {
     }
     public String registerUser(UserDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists");
+            throw new RegistrationException("Email already exists");
         }
 
         Users user = new Users();
@@ -52,17 +58,13 @@ public class UserServices implements UserInterface {
     }
 
     public String verifyUser(String token) {
-        Optional<Users> userOptional = userRepository.findByVerificationToken(token);
-        if (userOptional.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid token");
-        }
+        Users user = userRepository.findByVerificationToken(token)
+                .orElseThrow(() -> new VerificationException("Invalid token"));
 
-        Users user = userOptional.get();
         user.setVerificationToken(null);
         userRepository.save(user);
 
         return "Account verified";
     }
-
 
 }
