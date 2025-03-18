@@ -1,5 +1,6 @@
 package com.example.AddressBook.controller;
 
+import com.example.AddressBook.Utils.Jwt;
 import com.example.AddressBook.dto.LoginDTO;
 import com.example.AddressBook.dto.ResetPasswordDTO;
 import com.example.AddressBook.dto.UserDTO;
@@ -8,6 +9,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class UserController {
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserServices userServices;
 
+    @Autowired
+    Jwt jwtUtil;
     public UserController(UserServices userServices) {
         this.userServices = userServices;
     }
@@ -59,7 +64,21 @@ public class UserController {
     }
 
 
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
 
+        String authToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        String email = jwtUtil.extractEmail(authToken);
+
+        if (email == null) {
+            return ResponseEntity.badRequest().body("Invalid token or email not found.");
+        }
+
+        logger.info("Logout request received for user: {}", email);
+
+        userServices.logoutUser(email, authToken);
+        return ResponseEntity.ok("User logged out successfully.");
+    }
 
 
 

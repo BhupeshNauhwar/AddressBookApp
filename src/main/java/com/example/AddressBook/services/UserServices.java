@@ -13,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -149,4 +151,22 @@ public class UserServices implements UserInterface {
             throw new RuntimeException("An error occurred during password reset: " + e.getMessage());
         }
     }
+
+    public void logoutUser(String email, String token) {
+        Optional<Users> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            Users user = userOpt.get();
+
+
+            user.setBlacklistedToken(token);
+
+            userRepository.save(user);
+        }
+    }
+
+    public boolean isTokenBlacklisted(String token) {
+        return userRepository.findByBlacklistedToken(token).isPresent();
+    }
+
+
 }
