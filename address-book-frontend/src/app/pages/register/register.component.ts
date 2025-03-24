@@ -33,7 +33,7 @@ export class RegisterComponent {
         alert('User registered successfully!');
         this.registerForm.reset();
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
         if (error.status === 403) {
           alert('Access Denied! Please check your authentication.');
         } else if (error.status === 409) {
@@ -45,6 +45,7 @@ export class RegisterComponent {
       },
     });
   }
+  
   
   
 }

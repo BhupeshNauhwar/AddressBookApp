@@ -6,7 +6,7 @@
 </nav>
 
 <div class="container">
-  <h2>Address Book</h2>
+  <h2>📖 Address Book</h2>
   <table>
     <thead>
       <tr>
@@ -20,12 +20,22 @@
     <tbody>
       <tr *ngFor="let entry of addresses">
         <td>{{ entry.id }}</td>
-        <td>{{ entry.name }}</td>
+        
+        
+        <td>
+          <a [routerLink]="['/address/get', entry.id]">{{ entry.name }}</a>
+        </td>
+        
         <td>{{ entry.email }}</td>
         <td>{{ entry.phone }}</td>
+        
         <td>
-          <button>Edit</button>
-          <button>Delete</button>
+          <!-- Edit Button -->
+          <a [routerLink]="['/addressbook/Update', entry.id]">✏️ Edit</a>
+
+          <!-- Delete Button -->
+          <button (click)="deleteAddress(entry.id)" class="btn btn-danger">Delete</button>
+
         </td>
       </tr>
     </tbody>

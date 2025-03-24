@@ -33,7 +33,8 @@ export class LoginComponent {
           console.log('Extracted token:', token); 
           
           
-          localStorage.setItem('token', token);          console.log('Token stored in localStorage:', localStorage.getItem('token'));
+          localStorage.setItem('token', token);         
+          console.log('Token stored in localStorage:', localStorage.getItem('token'));
 
           this.loginForm.reset();
           this.router.navigate(['/addressbook/get']); 

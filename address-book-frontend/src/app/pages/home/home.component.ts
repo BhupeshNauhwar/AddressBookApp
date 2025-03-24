@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AddressBookService } from '../../services/address-book.service';
 
 @Component({
   selector: 'app-home',
@@ -9,28 +9,34 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class HomeComponent implements OnInit {
   addresses: any[] = [];  
 
-  constructor(private http: HttpClient) {}
+  constructor(private addressBookService: AddressBookService) {}
 
   ngOnInit(): void {
-   
-    const token = localStorage.getItem('token');
+    this.fetchAddresses();
+  }
 
-    
-    if (token) {
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  fetchAddresses(): void {
+    this.addressBookService.getAllAddresses().subscribe({
+      next: (response) => {
+        console.log("✅ Addresses fetched:", response);
+        this.addresses = response;
+      },
+      error: (err) => {
+        console.error('❌ Error fetching addresses:', err);
+      }
+    });
 
-      this.http.get('http://localhost:8080/addressbook/get', { headers })
-        .subscribe({
-          next: (response) => {
-            
-            this.addresses = response as any[];   
-          },
-          error: (err) => {
-            console.error('Error fetching addresses:', err);
-          }
-        });
-    } else {
-      console.error('No token found');
-    }
+
+  }
+
+  deleteAddress(id: number): void {
+    this.addressBookService.deleteAddress(id).subscribe({
+      next: () => {
+        console.log("✅ Address deleted successfully!");
+      },
+      error: (error) => {
+        console.error("❌ Error deleting address:", error);
+      }
+    });
   }
 }
