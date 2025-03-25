@@ -25,18 +25,22 @@ export class HomeComponent implements OnInit {
         console.error('❌ Error fetching addresses:', err);
       }
     });
-
-
   }
 
   deleteAddress(id: number): void {
+   
+  
     this.addressBookService.deleteAddress(id).subscribe({
       next: () => {
+        alert("✅ Address deleted successfully!");
         console.log("✅ Address deleted successfully!");
+        this.fetchAddresses(); 
       },
       error: (error) => {
         console.error("❌ Error deleting address:", error);
+        alert("❌ Error deleting address. Please try again.");
       }
     });
   }
+  
 }

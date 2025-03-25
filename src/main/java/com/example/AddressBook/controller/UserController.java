@@ -1,6 +1,7 @@
 package com.example.AddressBook.controller;
 
 import com.example.AddressBook.Utils.Jwt;
+import com.example.AddressBook.dto.ApiResponse;
 import com.example.AddressBook.dto.LoginDTO;
 import com.example.AddressBook.dto.ResetPasswordDTO;
 import com.example.AddressBook.dto.UserDTO;
@@ -31,18 +32,19 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<ApiResponse> register(@RequestBody UserDTO userDTO) {
         logger.info("Received Registration Request: {}", userDTO);
 
-        try {
-            String response = userServices.registerUser(userDTO);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("Email already exists")) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        ApiResponse response = userServices.registerUser(userDTO);
+
+        if (!response.isSuccess()) {
+            if (response.getMessage().contains("Email already exists")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
             }
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
+
+        return ResponseEntity.ok(response);
     }
 
 

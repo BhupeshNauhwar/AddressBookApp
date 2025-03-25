@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AddressBookService } from '../../services/address-book.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AddressBookService } from 'src/app/services/address-book.service';
 
 @Component({
   selector: 'app-edit-address',
@@ -10,57 +10,54 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditAddressComponent implements OnInit {
   editAddressForm!: FormGroup;
-  addressId: number | null = null;
-  isSubmitting: boolean = false;
+  isSubmitting: boolean = false; // ✅ Define isSubmitting
+  addressId!: number;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
+    private fb: FormBuilder,
     private addressBookService: AddressBookService,
-    private fb: FormBuilder
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      this.addressId = Number(params.get('id')); 
-      if (this.addressId) {
-        this.loadAddressDetails();
-      }
-    });
+    this.addressId = Number(this.route.snapshot.paramMap.get('id'));
 
     this.editAddressForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]]
     });
+
+    this.loadAddressDetails();
   }
 
   loadAddressDetails(): void {
-    if (this.addressId) {
-      this.addressBookService.getAddressById(this.addressId).subscribe({
-        next: (response) => {
-          this.editAddressForm.patchValue(response);
-        },
-        error: (error) => {
-          console.error("Error loading address details:", error);
-        }
-      });
-    }
+    this.addressBookService.getAddressById(this.addressId).subscribe({
+      next: (response) => {
+        this.editAddressForm.patchValue(response);
+      },
+      error: (error) => {
+        console.error('❌ Error loading address details:', error);
+        alert('Error loading address. Please try again.');
+        this.router.navigate(['/addressbook/get']);
+      }
+    });
   }
 
   updateAddress(): void {
-    if (this.editAddressForm.invalid) {
-      return;
-    }
+    if (this.editAddressForm.invalid) return;
 
     this.isSubmitting = true;
-    this.addressBookService.updateAddress(this.addressId!, this.editAddressForm.value).subscribe({
+    this.addressBookService.updateAddress(this.addressId, this.editAddressForm.value).subscribe({
       next: () => {
-        
-        this.router.navigate(['/addressbook/get']);
+        alert('✅ Address updated successfully!');
+        this.router.navigate(['/addressbook/get']); // Redirect after update
       },
       error: (error) => {
-        console.error("Error updating address:", error);
+        console.error('❌ Error updating address:', error);
+        alert('Error updating address. Please try again.');
+        this.isSubmitting = false;
       },
       complete: () => {
         this.isSubmitting = false;

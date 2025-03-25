@@ -1,6 +1,7 @@
 package com.example.AddressBook.services;
 
 import com.example.AddressBook.Utils.Jwt;
+import com.example.AddressBook.dto.ApiResponse;
 import com.example.AddressBook.dto.LoginDTO;
 import com.example.AddressBook.dto.UserDTO;
 import com.example.AddressBook.model.Users;
@@ -42,7 +43,7 @@ public class UserServices implements UserInterface {
         this.jwtUtil = jwtUtil;
         this.messagePublisher = messagePublisher;
     }
-    public String registerUser(UserDTO userDTO) {
+    public ApiResponse registerUser(UserDTO userDTO) {
         try {
             if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
                 throw new RuntimeException("Email already exists: " + userDTO.getEmail());
@@ -59,12 +60,11 @@ public class UserServices implements UserInterface {
             userRepository.save(user);
 
             emailService.sendVerificationEmail(user.getEmail(), verificationToken);
-
             messagePublisher.sendMessage("user.registration.queue", "New User Registered: " + user.getEmail());
 
-            return "Verification email sent";
+            return new ApiResponse("Verification email sent", true);
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while registering the user: " + e.getMessage());
+            return new ApiResponse("An error occurred while registering the user: " + e.getMessage(), false);
         }
     }
 
