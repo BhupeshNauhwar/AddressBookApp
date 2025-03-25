@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';  
+import { AuthService } from '../../services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -12,9 +12,9 @@ export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {  
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     console.log('RegisterComponent Loaded');
-    
+
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -27,11 +27,15 @@ export class RegisterComponent {
     if (this.registerForm.invalid) {
       return;
     }
-  
+
     this.authService.register(this.registerForm.value).subscribe({
-      next: () => {
-        alert('User registered successfully!');
-        this.registerForm.reset();
+      next: (response) => {
+        if (response.success) {
+          alert(response.message);  // Handle the success response here
+          this.registerForm.reset();
+        } else {
+          alert('Registration failed. Please try again.');
+        }
       },
       error: (error: HttpErrorResponse) => {
         if (error.status === 403) {
@@ -45,7 +49,4 @@ export class RegisterComponent {
       },
     });
   }
-  
-  
-  
 }

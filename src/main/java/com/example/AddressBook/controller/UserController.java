@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,17 @@ public class UserController {
     public ResponseEntity<String> register(@RequestBody UserDTO userDTO) {
         logger.info("Received Registration Request: {}", userDTO);
 
-        String response = userServices.registerUser(userDTO);
-        return ResponseEntity.ok(response);
+        try {
+            String response = userServices.registerUser(userDTO);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("Email already exists")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed");
+        }
     }
+
 
     @GetMapping("/verify")
     public ResponseEntity<String> verify(@RequestParam String token) {

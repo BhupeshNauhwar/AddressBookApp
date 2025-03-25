@@ -102,7 +102,7 @@ public class UserServices implements UserInterface {
                 throw new RuntimeException("Token validation failed");
             }
 
-            return "Login Successful. Token: " + token;
+            return  token;
         } catch (Exception e) {
             throw new RuntimeException("An error occurred during login: " + e.getMessage());
         }
