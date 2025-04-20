@@ -1,15 +1,19 @@
+<nav class="navbar">
+  <div class="navbar-brand">📖 Address Book</div>
+  <a routerLink="/addressbook/get" class="nav-link">🏠 Home</a>
+</nav>
+
 <div class="address-details">
-    <h2>📌 Address Details</h2>
-  
-    <div *ngIf="addressDetails">
-        <p><strong>ID:</strong> {{ addressDetails.id }}</p>
-        <p><strong>Name:</strong> {{ addressDetails.name }}</p>
-        <p><strong>Email:</strong> {{ addressDetails.email }}</p>
-        <p><strong>Phone:</strong> {{ addressDetails.phone }}</p>
-    </div>
-  
-    <a routerLink="/addressbook/get">
-      <button>⬅️ Back to Address Book</button>
-    </a>
+  <h2>📌 Address Details</h2>
+
+  <div *ngIf="addressDetails" class="details-card">
+    <p><strong>ID:</strong> {{ addressDetails.id }}</p>
+    <p><strong>Name:</strong> {{ addressDetails.name }}</p>
+    <p><strong>Email:</strong> {{ addressDetails.email }}</p>
+    <p><strong>Phone:</strong> {{ addressDetails.phone }}</p>
   </div>
-  
+
+  <a routerLink="/addressbook/get">
+    <button class="back-btn">⬅️ Back to Address Book</button>
+  </a>
+</div>

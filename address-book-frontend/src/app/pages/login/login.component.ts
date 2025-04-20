@@ -43,15 +43,20 @@ export class LoginComponent {
         }
       },
       error: (error: HttpErrorResponse) => {
-        console.error('Error:', error);
-        if (error.status === 403) {
-          alert('Your account is not verified. Please check your email.');
-        } else if (error.status === 401) {
+        console.error('Login error:', error);
+      
+        const errorMessage = error.error?.error || '';
+      
+        if (error.status === 401 || errorMessage.includes('Invalid password')) {
           alert('Invalid email or password.');
+        } else if (error.status === 500) {
+          alert('Your account is not verified. Please check your email.');
         } else {
-          alert('Login failed. Please try again.');
+          alert('Login failed. Please try again later.');
         }
-      },
+      }
+      
+      
     });
   }
 }

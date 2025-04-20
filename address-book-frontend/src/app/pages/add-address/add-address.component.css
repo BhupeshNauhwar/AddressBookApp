@@ -1,49 +1,141 @@
-/* ✅ Navbar Styling */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 nav {
-    background-color: #007bff;
-    padding: 10px;
-  }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-  }
+  background: linear-gradient(135deg, #009688, #673ab7);
+  padding: 14px 0;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  transition: 0.3s ease-in-out;
+  padding: 8px 15px;
+  border-radius: 5px;
+}
+
+nav ul li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffeb3b;
+}
+
+.container {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f5f5f5;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  text-align: center;
+}
+
+h2 {
+  font-size: 26px;
+  color: #009688;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin: 12px 0 5px;
+  text-align: left;
+  color: #2c3e50;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #b0bec5;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: 0.3s;
+  background: #ffffff;
+  outline: none;
+}
+
+input:focus {
+  border-color: #009688;
+  box-shadow: 0 0 8px rgba(0, 150, 136, 0.3);
+}
+
+small {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 5px;
+  display: block;
+}
+
+button {
+  width: 100%;
+  background: linear-gradient(135deg, #0d47a1, #00bcd4);
+  color: white;
+  font-size: 18px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-weight: bold;
+  margin-top: 15px;
+  box-shadow: 0 4px 15px rgba(0, 188, 212, 0.3);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #00bcd4, #0d47a1);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 188, 212, 0.5);
+}
+
+@media (max-width: 480px) {
   nav ul li {
-    display: inline;
+    display: block;
+    margin: 10px 0;
   }
+
   nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
   }
-  
-  /* ✅ Form Styling */
+
   .container {
-    margin: 20px auto;
-    width: 50%;
-    text-align: center;
+    margin: 30px 16px;
+    padding: 25px 18px;
   }
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+
+  h2 {
+    font-size: 22px;
   }
+
   input {
-    padding: 8px;
-    width: 100%;
-    border: 1px solid #ccc;
-  }
-  small {
-    color: red;
-  }
-  button {
+    font-size: 15px;
     padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    cursor: pointer;
   }
-  button:hover {
-    background-color: #218838;
+
+  button {
+    font-size: 16px;
+    padding: 10px;
   }
-  
+}

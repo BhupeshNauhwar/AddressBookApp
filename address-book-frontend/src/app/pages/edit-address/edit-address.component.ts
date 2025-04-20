@@ -10,7 +10,7 @@ import { AddressBookService } from 'src/app/services/address-book.service';
 })
 export class EditAddressComponent implements OnInit {
   editAddressForm!: FormGroup;
-  isSubmitting: boolean = false; // ✅ Define isSubmitting
+  isSubmitting: boolean = false; 
   addressId!: number;
 
   constructor(
@@ -52,7 +52,7 @@ export class EditAddressComponent implements OnInit {
     this.addressBookService.updateAddress(this.addressId, this.editAddressForm.value).subscribe({
       next: () => {
         alert('✅ Address updated successfully!');
-        this.router.navigate(['/addressbook/get']); // Redirect after update
+        this.router.navigate(['/addressbook/get']); 
       },
       error: (error) => {
         console.error('❌ Error updating address:', error);

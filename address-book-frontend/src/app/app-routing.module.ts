@@ -6,10 +6,14 @@ import { HomeComponent } from './pages/home/home.component';
 import { AddAddressComponent } from './pages/add-address/add-address.component';
 import { AddressDetailsComponent } from './pages/get-address/get-address.component';
 import { EditAddressComponent } from './pages/edit-address/edit-address.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: 'auth/register', component: RegisterComponent },
   { path: 'auth/login', component: LoginComponent },
+  { path: 'auth/forget-password', component: ForgetPasswordComponent },
+  { path: 'auth/reset-password', component: ResetPasswordComponent },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },  
 
   // Address Book Pages

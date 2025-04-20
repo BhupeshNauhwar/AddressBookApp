@@ -89,7 +89,7 @@ public class AddressBookService {
         }
     }
 
-    @CacheEvict(value = "addressBook", key = "#id")
+    @CacheEvict(value = { "addressBook", "addressBookList" }, allEntries = true)
     public void deleteAddressBookById(Long id) {
         Optional<AddressBook> addressBook = addressBookRepository.findById(id);
 
@@ -100,5 +100,6 @@ public class AddressBookService {
             throw new RuntimeException("Address book with ID " + id + " not found");
         }
     }
+
 
 }

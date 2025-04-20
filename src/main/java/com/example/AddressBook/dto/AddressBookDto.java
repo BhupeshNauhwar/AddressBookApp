@@ -1,25 +1,28 @@
 package com.example.AddressBook.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 
-
 public class AddressBookDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "Name cannot be empty")
     @Pattern(regexp = "^[A-Za-z\\s]{3,50}$", message = "Name must contain only letters and be 3-50 characters long")
     private String name;
+
+    @NotEmpty(message = "Email cannot be empty")
+    @Email(message = "Invalid email format")
     private String email;
+
+    @NotEmpty(message = "Phone number cannot be empty")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be exactly 10 digits")
     private String phone;
 
+    // Default constructor
     public AddressBookDto() {}
 
+    // Parameterized constructor
     public AddressBookDto(Long id, String name, String email, String phone) {
         this.id = id;
         this.name = name;
@@ -27,7 +30,7 @@ public class AddressBookDto {
         this.phone = phone;
     }
 
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -56,7 +59,7 @@ public class AddressBookDto {
         return phone;
     }
 
-    public void setPassword(String phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 }

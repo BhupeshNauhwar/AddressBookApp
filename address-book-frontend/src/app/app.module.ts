@@ -13,6 +13,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { AddressDetailsComponent } from './pages/get-address/get-address.component';
 import { CommonModule } from '@angular/common';
 import { EditAddressComponent } from './pages/edit-address/edit-address.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +26,8 @@ import { EditAddressComponent } from './pages/edit-address/edit-address.componen
     AddAddressComponent,
     AddressDetailsComponent,
     EditAddressComponent,
+    ForgetPasswordComponent,
+    ResetPasswordComponent
     
     
   ],

@@ -69,11 +69,11 @@ public class UserController {
         return ResponseEntity.ok(userServices.forgetPassword(userDTO.getEmail()));
     }
 
+
     @PostMapping("reset-password")
     public ResponseEntity<String> resetPassword(@RequestParam("token") String token, @RequestBody ResetPasswordDTO resetPasswordDTO){
         return ResponseEntity.ok(userServices.resetPassword(token,resetPasswordDTO.getNewPassword()));
     }
-
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
